@@ -1,0 +1,16 @@
+<% # オペレーター取得失敗時用 %>
+var response_text = document.createTextNode("<%= @text %>");
+
+var chat_div = document.createElement("div");
+var div_inner = document.createElement("p");
+chat_div.setAttribute("class", "bot-content");
+div_inner.setAttribute("class", "bot-text");
+div_inner.appendChild(response_text);
+chat_div.appendChild(div_inner);
+chat_container.appendChild(chat_div);
+
+var container_height = chat_container.scrollHeight;
+chat_container.scrollTop = container_height;
+text.value = "";
+
+start_btn.click();

@@ -1,0 +1,1 @@
+Time::DATE_FORMATS[:minutes_time] = '%M分%S秒'

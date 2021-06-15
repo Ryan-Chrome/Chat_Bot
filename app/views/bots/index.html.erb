@@ -1,0 +1,73 @@
+<div id = "MainContainer">
+  <div id = "operator_content"><%= render "shared/operator", operator: "未選択" %></div>
+  <div id = "chatContainer">
+    <%= render "change_operator" %>
+  </div>
+  <div id = "chatArea">
+    <div id = "chat_input_content">
+      <%= render "bots/form" %>
+    </div>
+    <div id = "mike-content">
+      <span id = "mike_start">音声入力開始</span>
+      <span id = "mike_stop">音声入力停止</span>
+    </div>
+  </div>
+</div>
+
+<script>
+  var operator_name = document.getElementById("operator_content");
+  var chat_input_content = document.getElementById("chat_input_content");
+  var chat_container = document.getElementById("chatContainer");
+  var text = document.getElementById("chat_input");
+  var submit = document.getElementById("btn");
+  var start_btn = document.getElementById("mike_start");
+  var stop_btn = document.getElementById("mike_stop");
+
+  start_btn.onclick = ()=> {
+    SpeechRecognition = webkitSpeechRecognition || SpeechRecognition;
+    var input_recognition = new SpeechRecognition();
+
+    input_recognition.start();
+    stop_btn.onclick = ()=> {
+      input_recognition.stop();
+    }
+
+    input_recognition.onresult = (event)=> {
+      text.value = event.results[0][0].transcript;
+      var order_recognition = new SpeechRecognition();
+      order_recognition.start();
+      order_recognition.onresult = (event)=> {
+        var order = event.results[0][0].transcript;
+        if(order == "よろしく"){
+          order_recognition.stop();
+          var chat_div = document.createElement("div");
+          var div_inner = document.createElement("p");
+          var user_text = document.createTextNode(text.value);
+          chat_div.setAttribute("class", "user-content");
+          div_inner.setAttribute("class", "user-text");
+          div_inner.appendChild(user_text);
+          chat_div.appendChild(div_inner);
+          chat_container.appendChild(chat_div);
+          submit.click();
+        } else if(order == "取り消し"){
+          text.value = "";
+          start_btn.click();
+        }
+      }
+    }
+  }
+
+  text.onkeypress = function(e){
+    const key = e.keyCode || e.chatCode || 0;
+    if (key == 13){
+      var chat_div = document.createElement("div");
+      var div_inner = document.createElement("p");
+      var user_text = document.createTextNode(text.value);
+      chat_div.setAttribute("class", "user-content");
+      div_inner.setAttribute("class", "user-text");
+      div_inner.appendChild(user_text);
+      chat_div.appendChild(div_inner);
+      chat_container.appendChild(chat_div);
+    }
+  }
+</script>

@@ -1,0 +1,12 @@
+<% # オペレーター変更時用 %>
+chat_container.insertAdjacentHTML("beforeend" ,"<%= j(render 'bots/change_operator') %>");
+
+var container_height = chat_container.scrollHeight;
+chat_container.scrollTop = container_height;
+text.value = "";
+
+chat_input_content.innerHTML = "<%= j(render "bots/form") %>"
+var text = document.getElementById("chat_input");
+var submit = document.getElementById("btn");
+
+start_btn.click();

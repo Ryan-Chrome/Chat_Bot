@@ -1,0 +1,7 @@
+<%= form_with url: bots_youtube_search_callback_path do |f| %>
+  <% if @youtube_id.present? %>
+    <%= f.hidden_field :video_id, value: @youtube_id %>
+  <% end %>
+  <%= f.text_field :input, id: "chat_input" %>
+  <%= f.submit "送信", id: "btn" %>
+<% end %>

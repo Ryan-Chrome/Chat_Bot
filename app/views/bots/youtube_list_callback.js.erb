@@ -1,0 +1,42 @@
+<% if @playlist %>
+  chat_container.insertAdjacentHTML("beforeend" ,"<%= j(render 'youtubes/playlist') %>");
+<% else %>
+  var response_text = document.createTextNode("<%= @text %>");
+  var chat_div = document.createElement("div");
+  var div_inner = document.createElement("p");
+  chat_div.setAttribute("class", "bot-content");
+  div_inner.setAttribute("class", "bot-text");
+  div_inner.appendChild(response_text);
+  chat_div.appendChild(div_inner);
+  chat_container.appendChild(chat_div);
+<% end %>
+
+<% if @video.present? %>
+  var video_div = document.createElement("div");
+  video_div.setAttribute("id", "video_div");
+  video_div.style.paddingLeft = "10px";
+  video_div.style.paddingTop = "10px";
+  video_div.style.paddingBottom = "10px";
+
+  var video = document.createElement("iframe");
+  video.setAttribute("id", "player");
+  video.setAttribute("src", "https://www.youtube.com/embed/<%= @video.video_id %>?autoplay=1&start=1");
+  video.setAttribute("allow", "accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture");
+  video.style.width = "320px";
+  video.style.height = "180px";
+  video.style.border = "none";
+  video_div.appendChild(video);
+  chat_container.appendChild(video_div);
+<% end %>
+
+var container_height = chat_container.scrollHeight;
+chat_container.scrollTop = container_height;
+text.value = "";
+
+chat_input_content.innerHTML = "<%= j(render 'bots/youtube_list_form') %>";
+var text = document.getElementById("chat_input");
+var submit = document.getElementById("btn");
+
+operator_name.innerHTML = "<%= j(render 'shared/operator', operator: "youtube(プレイリスト)") %>";
+
+start_btn.click();

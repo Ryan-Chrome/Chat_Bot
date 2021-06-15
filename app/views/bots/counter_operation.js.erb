@@ -1,0 +1,22 @@
+<% # カウンターオペレーター取得時 %>
+var response_text = document.createTextNode("<%= @text %>");
+
+var chat_div = document.createElement("div");
+var div_inner = document.createElement("p");
+chat_div.setAttribute("class", "bot-content");
+div_inner.setAttribute("class", "bot-text");
+div_inner.appendChild(response_text);
+chat_div.appendChild(div_inner);
+chat_container.appendChild(chat_div);
+
+var container_height = chat_container.scrollHeight;
+chat_container.scrollTop = container_height;
+text.value = "";
+
+chat_input_content.innerHTML = "<%= j(render "bots/counter_form") %>";
+var text = document.getElementById("chat_input");
+var submit = document.getElementById("btn");
+
+operator_name.innerHTML = "<%= j(render "shared/operator", operator: "counter") %>";
+
+start_btn.click();
